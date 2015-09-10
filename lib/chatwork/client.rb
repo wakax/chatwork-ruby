@@ -3,7 +3,7 @@ require 'json'
 
 module ChatWork
   class Client
-    def initialize(api_key, api_base, api_version)
+    def initialize(api_key, api_base, api_version, timeout)
       default_header = {
         'X-ChatWorkToken' => api_key,
         'User-Agent' => "ChatWork#{api_version} RubyBinding/#{ChatWork::VERSION}"
@@ -12,6 +12,7 @@ module ChatWork
       @conn = Faraday.new("#{api_base}#{api_version}", headers: default_header) do |builder|
         builder.request :url_encoded
         builder.adapter Faraday.default_adapter
+        builder.options.timeout = timeout if timeout.present?
       end
       @api_version = api_version
     end
