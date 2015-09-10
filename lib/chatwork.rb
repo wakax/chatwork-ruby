@@ -17,10 +17,11 @@ module ChatWork
   @api_base = 'https://api.chatwork.com/'
   @api_version = '/v1'
   @api_key = nil
+  @timeout = nil
 
   class << self
     def client
-      @client ||= Client.new(@api_key, @api_base, @api_version)
+      @client ||= Client.new(@api_key, @api_base, @api_version, @timeout)
     end
 
     def api_base=(new_value)
@@ -33,12 +34,21 @@ module ChatWork
       @client = nil
     end
 
+    def timeout=(new_value)
+      @timeout = new_value
+      @client = nil
+    end
+
     def api_base
       @api_base
     end
 
     def api_key
       @api_key
+    end
+
+    def timeout
+      @timeout
     end
   end
 end
