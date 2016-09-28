@@ -13,6 +13,7 @@ module ChatWork
   autoload(:MyTask, 'chatwork/my_task')
   autoload(:Task, 'chatwork/task')
   autoload(:Member, 'chatwork/member')
+  autoload(:Contacts, 'chatwork/contacts')
 
   @api_base = 'https://api.chatwork.com/'
   @api_version = '/v1'
@@ -21,7 +22,7 @@ module ChatWork
 
   class << self
     def client
-      @client ||= Client.new(@api_key, @api_base, @api_version, @timeout)
+      @client ||= Client.new(api_key, api_base, api_version, timeout)
     end
 
     def api_base=(new_value)
@@ -44,7 +45,11 @@ module ChatWork
     end
 
     def api_key
-      @api_key
+      @api_key || ENV['CHATWORK_API_TOKEN']
+    end
+
+    def api_version
+      @api_version
     end
 
     def timeout
